@@ -8,7 +8,7 @@ export function Contact() {
 
         <a
           href="mailto:teheranroai@gmail.com"
-          className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-foreground hover:text-accent transition-colors"
+          className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-foreground hover:text-accent transition-colors duration-200 cursor-pointer"
         >
           teheranroai@gmail.com
         </a>
