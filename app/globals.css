@@ -20,10 +20,12 @@
   --color-muted: #FAFAFA;
   --color-muted-foreground: #737373;
   
-  --color-accent: #2563eb;
+  --color-accent: #E85D22;
   --color-accent-foreground: #FFFFFF;
   
   --color-border: #E5E5E5;
+  
+  --color-hermes: #E85D22;
   
   --color-success: #22c55e;
   --color-warning: #eab308;

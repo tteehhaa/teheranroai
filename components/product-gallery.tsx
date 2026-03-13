@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { X, TrendingUp } from "lucide-react";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 
-// Animated Counter Component
+// Animated Counter Component with enhanced visuals
 function AnimatedCounter({ 
   value, 
   suffix = "",
@@ -28,6 +28,9 @@ function AnimatedCounter({
     if (value >= 1000) {
       return `${prefix}${Math.floor(current).toLocaleString()}${suffix}`;
     }
+    if (value < 10) {
+      return `${prefix}${current.toFixed(1)}${suffix}`;
+    }
     return `${prefix}${Math.floor(current).toLocaleString()}${suffix}`;
   });
 
@@ -40,7 +43,10 @@ function AnimatedCounter({
   return (
     <motion.span 
       ref={ref} 
-      className="font-mono font-semibold text-foreground tabular-nums"
+      className="font-mono font-bold text-3xl md:text-4xl text-[#E85D22] tabular-nums"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.5, delay: 0.2 }}
     >
       {display}
     </motion.span>
@@ -161,12 +167,12 @@ function WaitlistModal({
               onChange={(e) => setEmail(e.target.value)}
               placeholder="이메일 주소를 입력하세요"
               required
-              className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent text-sm"
+              className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#E85D22] focus:border-transparent text-sm transition-all"
               autoFocus
             />
             <button
               type="submit"
-              className="w-full px-6 py-3 bg-slate-900 text-white rounded-full font-medium text-sm hover:bg-slate-800 transition-colors"
+              className="w-full px-6 py-3 bg-slate-900 text-white rounded-full font-medium text-sm hover:bg-[#E85D22] transition-colors duration-300"
             >
               알림 신청하기
             </button>
@@ -177,7 +183,7 @@ function WaitlistModal({
   );
 }
 
-// Card wrapper with hover animation
+// Card wrapper with hover animation - Hermes orange border on hover
 function ProjectCard({ 
   children, 
   className = "" 
@@ -187,7 +193,7 @@ function ProjectCard({
 }) {
   return (
     <motion.div 
-      className={`bg-[#F9F9F9] rounded-lg p-8 md:p-10 transition-all duration-300 hover:shadow-lg ${className}`}
+      className={`bg-[#F9F9F9] rounded-lg p-8 md:p-10 border border-transparent transition-all duration-300 hover:border-[#E85D22]/30 hover:shadow-lg group ${className}`}
       whileHover={{ y: -3 }}
       transition={{ duration: 0.2 }}
     >
@@ -203,65 +209,80 @@ export function ProductGallery() {
     <>
       <section id="projects" className="py-24 px-6 bg-background">
         <div className="max-w-2xl mx-auto">
-          {/* Section Header */}
-          <div className="flex items-center gap-4 mb-16">
-            <div className="flex-1 h-px bg-foreground/10" />
+          {/* Section Header - Centered */}
+          <div className="flex items-center justify-center gap-6 mb-20">
+            <div className="w-12 h-px bg-foreground/10" />
             <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
               Projects
             </h2>
+            <div className="w-12 h-px bg-foreground/10" />
           </div>
 
           <div className="flex flex-col gap-20">
             {/* Card 1: AI Life Shift - Live */}
             <ProjectCard>
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
-                <h3 className="text-lg md:text-xl font-semibold text-foreground tracking-tight">
+                <h3 className="text-lg md:text-xl font-semibold text-foreground tracking-tight group-hover:text-[#1A1A1A] transition-colors">
                   AI Life Shift
                 </h3>
                 <Badge label="Live" variant="live" />
               </div>
           
-              <p className="text-sm text-muted-foreground leading-relaxed mb-8">
+              <p className="text-sm text-muted-foreground leading-relaxed mb-10">
                 당신의 24시간을 분석하여 AI로 대체될 위기와 기회를 진단합니다.
               </p>
               
-              {/* Animated Stats */}
-              <div className="flex flex-col sm:flex-row gap-6 mb-8">
-                <div className="flex items-center gap-3">
-                  <div className="flex flex-col">
-                    <span className="text-xs text-muted-foreground mb-1">누적 진단 완료</span>
-                    <div className="flex items-center gap-2">
-                      <AnimatedCounter value={3420} suffix="건" />
-                      <motion.span
-                        animate={{ y: [0, -2, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      >
-                        <TrendingUp className="w-3 h-3 text-success" />
-                      </motion.span>
-                    </div>
+              {/* Animated Stats - Larger with graphic motion */}
+              <div className="grid grid-cols-2 gap-8 mb-10">
+                <motion.div 
+                  className="text-center p-6 bg-white rounded-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider mb-3 block">누적 진단 완료</span>
+                  <div className="flex items-center justify-center gap-2">
+                    <AnimatedCounter value={3420} suffix="건" />
+                    <motion.span
+                      animate={{ 
+                        y: [0, -4, 0],
+                        opacity: [0.5, 1, 0.5]
+                      }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <TrendingUp className="w-5 h-5 text-success" />
+                    </motion.span>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex flex-col">
-                    <span className="text-xs text-muted-foreground mb-1">절약된 기회비용</span>
-                    <div className="flex items-center gap-2">
-                      <AnimatedCounter value={1.2} prefix="₩" suffix="B+" duration={2.5} />
-                      <motion.span
-                        animate={{ y: [0, -2, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
-                      >
-                        <TrendingUp className="w-3 h-3 text-success" />
-                      </motion.span>
-                    </div>
+                </motion.div>
+                <motion.div 
+                  className="text-center p-6 bg-white rounded-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider mb-3 block">절약된 기회비용</span>
+                  <div className="flex items-center justify-center gap-2">
+                    <AnimatedCounter value={1} prefix="₩" suffix="B+" duration={2.5} />
+                    <motion.span
+                      animate={{ 
+                        y: [0, -4, 0],
+                        opacity: [0.5, 1, 0.5]
+                      }}
+                      transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
+                    >
+                      <TrendingUp className="w-5 h-5 text-success" />
+                    </motion.span>
                   </div>
-                </div>
+                </motion.div>
               </div>
               
               <a
                 href="https://ai-shift-compass.lovable.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-slate-800 transition-colors"
+                className="inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-[#E85D22] transition-colors duration-300"
               >
                 지금 진단하기
               </a>
@@ -270,7 +291,7 @@ export function ProductGallery() {
             {/* Card 2: Project Pentagon - In Development */}
             <ProjectCard>
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
-                <h3 className="text-lg md:text-xl font-semibold text-foreground tracking-tight">
+                <h3 className="text-lg md:text-xl font-semibold text-foreground tracking-tight group-hover:text-[#1A1A1A] transition-colors">
                   프로젝트 펜타곤
                 </h3>
                 <Badge label="In Development" variant="development" />
@@ -282,7 +303,7 @@ export function ProductGallery() {
               
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-slate-800 transition-colors"
+                className="inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-[#E85D22] transition-colors duration-300"
               >
                 출시 알림 신청하기
               </button>
@@ -291,7 +312,7 @@ export function ProductGallery() {
             {/* Card 3: Enterprise Risk Guard - Planning */}
             <ProjectCard>
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
-                <h3 className="text-lg md:text-xl font-semibold text-foreground tracking-tight">
+                <h3 className="text-lg md:text-xl font-semibold text-foreground tracking-tight group-hover:text-[#1A1A1A] transition-colors">
                   엔터프라이즈 리스크 진단
                 </h3>
                 <Badge label="Planning" variant="planning" />
@@ -303,7 +324,7 @@ export function ProductGallery() {
               
               <a
                 href="mailto:teheranroai@gmail.com?subject=B2B 제휴 및 도입 문의&body=안녕하세요, 엔터프라이즈 리스크 가드 도입에 관해 문의드립니다."
-                className="inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-slate-800 transition-colors"
+                className="inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-[#E85D22] transition-colors duration-300"
               >
                 B2B 제휴 및 도입 문의
               </a>
