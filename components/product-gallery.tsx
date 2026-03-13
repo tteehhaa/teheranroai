@@ -129,17 +129,7 @@ export function ProductGallery() {
                 </h3>
                 <Badge label="Live" variant="live" />
               </div>
-              
-              <a 
-                href="https://ai-shift-compass.lovable.app" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-accent hover:underline text-xs mb-4"
-              >
-                ai-shift-compass.lovable.app
-                <ExternalLink className="w-3 h-3" />
-              </a>
-              
+          
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                 당신의 24시간을 분석하여 AI로 대체될 위기와 기회를 진단합니다.
               </p>
@@ -164,13 +154,13 @@ export function ProductGallery() {
             <div className="bg-card rounded-2xl border border-border p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                 <h3 className="text-xl md:text-2xl font-semibold text-card-foreground">
-                  프로젝트 펜타곤 (가제)
+                  프로젝트 펜타곤
                 </h3>
                 <Badge label="In Development" variant="development" />
               </div>
               
               <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                대중이 가장 큰 위협을 느끼는 상위 5개 업무 영역을 타겟팅한 초자동화(Hyper-automation) 서비스.
+                사용자들이 가장 큰 위협을 느끼는 상위 3개 업무 영역을 타겟팅한 초자동화(Hyper-automation) 서비스.
               </p>
               
               <button
@@ -185,7 +175,7 @@ export function ProductGallery() {
             <div className="bg-card rounded-2xl border border-border p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                 <h3 className="text-xl md:text-2xl font-semibold text-card-foreground">
-                  엔터프라이즈 리스크 가드
+                  엔터프라이즈 리스크 진단
                 </h3>
                 <Badge label="Planning" variant="planning" />
               </div>
