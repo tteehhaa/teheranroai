@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { X, TrendingUp } from "lucide-react";
+import { X } from "lucide-react";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 
-// Animated Counter Component - refined and subtle
+// Animated Counter Component - refined, subtle, Korean format
 function AnimatedCounter({ 
   value, 
   suffix = "",
@@ -20,6 +20,7 @@ function AnimatedCounter({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [hasAnimated, setHasAnimated] = useState(false);
   
   const spring = useSpring(0, { 
     duration: duration * 1000,
@@ -37,15 +38,16 @@ function AnimatedCounter({
   });
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView && !hasAnimated) {
       spring.set(value);
+      setHasAnimated(true);
     }
-  }, [isInView, spring, value]);
+  }, [isInView, spring, value, hasAnimated]);
 
   return (
     <motion.span 
       ref={ref} 
-      className={`font-mono font-light text-lg md:text-xl tabular-nums transition-colors duration-500 ${
+      className={`font-mono font-light text-[1.1rem] tabular-nums transition-colors duration-500 ${
         isHovered ? "text-[#E85D22]" : "text-gray-300"
       }`}
     >
@@ -196,7 +198,7 @@ function ProjectCard({
 }) {
   return (
     <motion.div 
-      className={`bg-background rounded-md p-10 md:p-14 border border-transparent transition-all duration-500 hover:border-[#E85D22]/20 group ${className}`}
+      className={`bg-background rounded-md p-12 md:p-16 border border-transparent transition-all duration-500 hover:border-[#E85D22]/20 group max-w-xl mx-auto text-center ${className}`}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.3 }}
       onHoverStart={() => onHoverChange?.(true)}
@@ -213,10 +215,10 @@ export function ProductGallery() {
 
   return (
     <>
-      <section id="projects" className="py-24 px-6 bg-background">
-        <div className="max-w-2xl mx-auto">
+      <section id="projects" className="py-32 px-6 bg-background">
+        <div className="max-w-xl mx-auto">
           {/* Section Header - Centered */}
-          <div className="flex items-center justify-center gap-6 mb-24">
+          <div className="flex items-center justify-center gap-6 mb-32">
             <div className="w-16 h-px bg-foreground/10" />
             <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
               Projects
@@ -224,30 +226,35 @@ export function ProductGallery() {
             <div className="w-16 h-px bg-foreground/10" />
           </div>
 
-          <div className="flex flex-col gap-24">
+          <div className="flex flex-col gap-32">
             {/* Card 1: AI Life Shift - Live */}
             <ProjectCard onHoverChange={(h) => setHoveredCard(h ? "card1" : null)}>
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-8">
+              <div className="flex flex-col items-center gap-3 mb-10">
                 <h3 className="text-lg font-semibold text-foreground tracking-tight">
-                  AI Life Shift
+                  AI 일상 진단 : AI Life Shift
                 </h3>
                 <Badge label="Live" variant="live" />
               </div>
           
-              <p className="text-sm text-muted-foreground leading-loose mb-12">
-                당신의 24시간을 분석하여 AI로 대체될 위기와 기회를 진단합니다.
+              <p className="text-sm text-muted-foreground leading-loose mb-12 max-w-md mx-auto">
+                하루 24시간의 업무와 일상을 분석하여,<br />
+                AI로 대체될 위기와 새로운 기회를 진단합니다.
               </p>
               
-              {/* Stats - Horizontal inline layout with divider */}
-              <div className="flex items-center justify-start gap-6 mb-12 text-sm">
-                <div className="flex items-center gap-3">
-                  <span className="text-muted-foreground">누적 진단 완료</span>
+              {/* Stats - Horizontal inline layout with divider, Korean format */}
+              <div className="flex items-center justify-center gap-6 mb-12 text-sm">
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-muted-foreground text-xs">누적 진단 완료</span>
                   <AnimatedCounter value={3420} suffix="건" isHovered={hoveredCard === "card1"} />
                 </div>
-                <div className="w-px h-4 bg-foreground/10" />
-                <div className="flex items-center gap-3">
-                  <span className="text-muted-foreground">절약된 기회비용</span>
-                  <AnimatedCounter value={1} prefix="₩" suffix="B+" duration={2.5} isHovered={hoveredCard === "card1"} />
+                <div className="w-px h-8 bg-foreground/10" />
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-muted-foreground text-xs">절약된 가치</span>
+                  <span className={`font-mono font-light text-[1.1rem] tabular-nums transition-colors duration-500 ${
+                    hoveredCard === "card1" ? "text-[#E85D22]" : "text-gray-300"
+                  }`}>
+                    약 10억 원+
+                  </span>
                 </div>
               </div>
               
@@ -263,15 +270,16 @@ export function ProductGallery() {
 
             {/* Card 2: Project Pentagon - In Development */}
             <ProjectCard>
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-8">
+              <div className="flex flex-col items-center gap-3 mb-10">
                 <h3 className="text-lg font-semibold text-foreground tracking-tight">
                   프로젝트 펜타곤
                 </h3>
                 <Badge label="In Development" variant="development" />
               </div>
               
-              <p className="text-sm text-muted-foreground leading-loose mb-12">
-                사용자들이 가장 큰 위협을 느끼는 상위 3개 업무 영역을 타겟팅한 초자동화(Hyper-automation) 서비스.
+              <p className="text-sm text-muted-foreground leading-loose mb-12 max-w-md mx-auto">
+                사용자들이 가장 큰 위협을 느끼는<br />
+                상위 3개 업무 영역을 타겟팅한 초자동화 서비스.
               </p>
               
               <button
@@ -284,15 +292,16 @@ export function ProductGallery() {
 
             {/* Card 3: Enterprise Risk Guard - Planning */}
             <ProjectCard>
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-8">
+              <div className="flex flex-col items-center gap-3 mb-10">
                 <h3 className="text-lg font-semibold text-foreground tracking-tight">
                   엔터프라이즈 리스크 진단
                 </h3>
                 <Badge label="Planning" variant="planning" />
               </div>
               
-              <p className="text-sm text-muted-foreground leading-loose mb-12">
-                리걸테크 기반의 정교하고 실질적인 B2B AI 컴플라이언스 및 리스크 관리 솔루션.
+              <p className="text-sm text-muted-foreground leading-loose mb-12 max-w-md mx-auto">
+                리걸테크 기반의 정교하고 실질적인<br />
+                B2B AI 컴플라이언스 및 리스크 관리 솔루션.
               </p>
               
               <a

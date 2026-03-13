@@ -3,9 +3,9 @@
 export function Hero() {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-6 py-20 bg-background relative">
-      {/* Location Badge - Top Right with orange dot */}
+      {/* Location Badge - Top Right with orange dot - subtle */}
       <div className="absolute top-6 right-6 md:top-8 md:right-8 flex items-center gap-2">
-        <span className="text-xs text-gray-400 tracking-wide">Seoul, South Korea</span>
+        <span className="text-xs text-gray-300 tracking-wide">Seoul, South Korea</span>
         <span className="w-1.5 h-1.5 rounded-full bg-[#E85D22]" />
       </div>
 
