@@ -14,13 +14,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Teheran AI Studio | 테헤란로 AI 스튜디오",
-  description: "Not to be busy, but to do the right things.",
+  title: "Teheranro AI Studio | 테헤란로 AI 스튜디오",
+  description: "Not to be busy, but to do the right things. 불필요한 분주함 너머, 비즈니스의 본질에 집중합니다.",
   keywords: ["AI", "스튜디오", "테헤란로", "인공지능", "자동화", "혁신"],
-  authors: [{ name: "Teheran AI Studio" }],
+  authors: [{ name: "Teheranro AI Studio" }],
   openGraph: {
-    title: "Teheran AI Studio",
-    description: "Not to be busy, but to do the right things. AI를 활용해 일상과 비즈니스의 효율을 찾아봅니다.",
+    title: "Teheranro AI Studio",
+    description: "Not to be busy, but to do the right things. 기술적 논리와 법률적 치밀함으로 설계한 AI 솔루션.",
     type: "website",
     locale: "ko_KR",
   },

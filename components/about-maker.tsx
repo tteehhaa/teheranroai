@@ -1,18 +1,19 @@
 export function AboutMaker() {
   return (
-    <section id="about" className="py-24 px-6 bg-background">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-12">
-          Who is the Maker?
+    <section id="about" className="py-20 px-6 bg-background">
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
+          Philosophy
         </h2>
 
-        <p className="text-xl md:text-2xl text-foreground leading-relaxed">
-          기술과 법의 교차점에서 찾아보는 효율적인 리스크 매니지먼트.
+        <p className="text-base md:text-lg text-slate-600 leading-loose">
+          엔지니어의 시스템적 사고와 변호사의 리스크 매니지먼트.
           <br />
-          <span className="text-muted-foreground">
-            두 세계의 시선을 연결하여, 세상에 꼭 필요한 프로덕트를 설계합니다.
-          </span>
+          두 세계의 시선을 연결하여, 실질적인 효용을 만드는 프로덕트를 설계합니다.
         </p>
+
+        {/* Thin divider line */}
+        <div className="mt-16 border-t border-foreground/10 max-w-xs mx-auto" />
       </div>
     </section>
   );
