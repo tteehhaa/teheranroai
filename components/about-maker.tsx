@@ -9,9 +9,7 @@ export function AboutMaker() {
         <p className="text-base md:text-lg text-slate-600 leading-loose">
           코드 짜다가 계약서 읽는 사람이 만든 프로덕트.
           <br />
-          완벽하지 않습니다. 
-          <br />
-          다만, 버그는 찾아내고 리스크는 막습니다.
+          완벽하지 않습니다만, 리스크는 찾아내고 버그는 고칩니다.
         </p>
 
         {/* Thin divider line */}
