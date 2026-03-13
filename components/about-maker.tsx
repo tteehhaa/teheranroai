@@ -7,9 +7,9 @@ export function AboutMaker() {
         </h2>
 
         <p className="text-base md:text-lg text-slate-600 leading-loose">
-          엔지니어의 시스템적 사고와 변호사의 리스크 매니지먼트.
+          완벽하지 않습니다. 다만, 버그는 찾아내고 리스크는 막습니다.
           <br />
-          두 세계의 시선을 연결하여, 실질적인 효용을 만드는 프로덕트를 설계합니다.
+          코드 짜다가 계약서 읽는 사람이 만든 프로덕트를 지향합니다.
         </p>
 
         {/* Thin divider line */}

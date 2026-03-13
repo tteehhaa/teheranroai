@@ -3,15 +3,16 @@
 export function Hero() {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-6 py-20 bg-background relative">
-      {/* Location Badge - Top Right */}
-      <div className="absolute top-6 right-6 md:top-8 md:right-8">
+      {/* Location Badge - Top Right with orange dot */}
+      <div className="absolute top-6 right-6 md:top-8 md:right-8 flex items-center gap-2">
         <span className="text-xs text-gray-400 tracking-wide">Seoul, South Korea</span>
+        <span className="w-1.5 h-1.5 rounded-full bg-[#E85D22]" />
       </div>
 
       <div className="max-w-2xl mx-auto text-center">
-        {/* Main Headline - Premium Serif with only AI italic */}
+        {/* Main Headline - Premium Serif with only AI italic, hover effect */}
         <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl tracking-tight text-foreground font-medium">
-          Teheranro <span className="italic">AI</span> Studio
+          Teheranro <span className="italic transition-colors duration-300 hover:text-[#E85D22] cursor-default">AI</span> Studio
         </h1>
         
         {/* Body Text - Large gap for Zen style */}
