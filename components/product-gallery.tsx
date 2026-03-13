@@ -279,7 +279,7 @@ export function ProductGallery() {
               
               <p className="text-sm text-muted-foreground leading-loose mb-12 max-w-md mx-auto">
                 사용자들이 가장 큰 위협을 느끼는<br />
-                상위 3개 업무 영역을 타겟팅한 초자동화 서비스.
+                상위 5개 업무 영역을 타겟팅한 초자동화 서비스.
               </p>
               
               <button
