@@ -84,15 +84,6 @@ export function ProductGallery() {
               <Badge label="Live" variant="live" />
             </div>
             
-            <a 
-              href="https://ai-shift-compass.lovable.app" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-accent hover:underline text-sm mb-6"
-            >
-              ai-shift-compass.lovable.app
-              <ExternalLink className="w-3 h-3" />
-            </a>
             
             <p className="text-muted-foreground leading-relaxed mb-6">
               당신의 24시간을 분석하여 AI로 대체될 위기와 기회를 진단합니다.
