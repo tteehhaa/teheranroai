@@ -31,15 +31,17 @@ export const PROJECTS: Project[] = [
     line: { ko: "중소기업 수출 업무 지원 소프트웨어", en: "Export operations software for small businesses" },
     stage: "live",
     link: "https://www.trops.kr/",
-    bg: "#ECEFF4",
+    image: "/projects/trops.jpg",
+    bg: "#F5F6F4",
   },
   {
     id: "otherwise",
     name: "Otherwise",
-    line: { ko: "찍은 자리의 달라질 모습을 보여주는 앱", en: "The appearance layer for the physical world" },
+    line: { ko: "이 자리, 어떻게 바뀔 수 있을까요", en: "The appearance layer for the physical world" },
     stage: "building",
     note: { ko: "공개 전", en: "Not yet public" },
-    bg: "#DCE4E8",
+    image: "/projects/otherwise.jpg",
+    bg: "#F5F6F4",
   },
   {
     id: "bar-route",
@@ -47,7 +49,8 @@ export const PROJECTS: Project[] = [
     line: { ko: "영미권 변호사 자격 경로 진단", en: "Common-law bar eligibility, mapped" },
     stage: "building",
     link: "https://bar-route.vercel.app/",
-    bg: "#F2EFE9",
+    image: "/projects/bar-route.jpg",
+    bg: "#F5F6F4",
   },
 ];
 
