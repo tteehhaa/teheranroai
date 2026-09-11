@@ -166,7 +166,7 @@
 ---
 
 ## 7. 접근성
-- 페이지마다 화면에서 숨긴 h1(ko: "Teheranro AI Studio · 계약서를 읽는 사람이 만드는 소프트웨어", en: "Teheranro AI Studio · Software built by someone who reads the contracts.").
+- 페이지마다 화면에서 숨긴 h1. 입구(`/`, `/en`)는 슬로건(ko: "Teheranro AI Studio · 계약서를 읽는 사람이 만드는 소프트웨어", en: "Teheranro AI Studio · Software built by someone who reads the contracts."), 프로젝트 주소는 "{이름} · {한 줄 설명}"(예: "Bar Route · 영미권 변호사 자격 경로 진단"). 서버 HTML 기준이며 슬라이드 전환 때는 바뀌지 않는다.
 - 도로명판은 `aria-label`이 있는 버튼("들어가기: 테헤란로 AI 스튜디오").
 - 전시 섹션 `aria-roledescription="carousel"`, 막대마다 프로젝트 이름 라벨과 `aria-current`.
 - 메뉴: `role="dialog"`, `aria-modal`, 열리면 뒤쪽 `main`에 `inert`, 닫기 버튼으로 포커스 이동, 닫으면 메뉴 버튼으로 포커스 복귀, Esc로 닫기.
@@ -186,7 +186,7 @@
 | OG / Twitter | 페이지별 제목·설명, 이미지 `/og.png`(1200×630, 도로명판), `summary_large_image` |
 | favicon | 방향 표지판(파란 판·흰 테두리·끝이 뾰족함) + Pretendard Bold "AI" 윤곽 + 회색 기둥. `/icon.svg`, `/favicon.ico`(16·32·48), `/apple-icon.png`(180, 종이색 바탕). TROPS의 사각형 아이콘과 구분되도록 윤곽으로 알아보게 함 |
 | 소유 확인 | 네이버 서치어드바이저 `naver-site-verification` meta (모든 페이지 head, `components/RootDocument.tsx`의 `verification`). Google Search Console은 코드를 받으면 같은 곳에 추가 |
-| JSON-LD | WebSite(`@id` …/#website, description, publisher `{"@id":"https://theo-ne.com/#org"}`) + Organization(같은 `@id`, 이름 (주)테오네 / THÉONÉ Inc., url, email, taxID=사업자등록번호, brand(name·alternateName "테헤란로 AI 스튜디오"·url, theo-ne.com과 동일)) + SoftwareApplication(name, url만) TROPS·Bar Route |
+| JSON-LD | WebSite(`@id` …/#website, description, publisher `{"@id":"https://theo-ne.com/#org"}`) + Organization(같은 `@id`, 이름 (주)테오네 / THÉONÉ Inc., url, email, taxID=사업자등록번호, brand(name·alternateName "테헤란로 AI 스튜디오"·url, theo-ne.com과 동일)) + SoftwareApplication(`@id`, name, 페이지 언어의 한 줄 설명, url, publisher) TROPS·Bar Route + WebPage(`@id` {주소}#webpage, 페이지 제목·설명, inLanguage, isPartOf WebSite, about = 링크 있는 프로젝트면 그 SoftwareApplication, 아니면 회사). 페이지마다 한 그래프를 페이지 컴포넌트에서 렌더. SoftwareApplication `@id`는 기본 `https://www.teheranro-ai.com/#{id}`, TROPS는 theo-ne.com과 같은 `https://theo-ne.com/#trops` |
 | sitemap | 8개 주소(ko·en × 입구·3개 프로젝트), 각 주소에 언어 대체 |
 | robots | 전체 허용, `/licenses`는 페이지에서 `noindex, follow` |
 | llms.txt | llmstxt.org 형식. 브랜드 소개, 만드는 방식, 제품별 한 줄 설명·대상·단계·제품 사이트, 문의(이메일·회사·사업자등록번호, 가격은 싣지 않고 이메일 문의). 전화번호는 없음 |
@@ -241,7 +241,7 @@ public/projects/       프로젝트 사진, public/og.png, public/icon.svg·favi
 - **단계 바꾸기**: `lib/projects.ts`에서 해당 프로젝트의 `stage`를 `"live"`, `"beta"`, `"building"` 중 하나로. 새 단계 이름이 필요하면 같은 파일의 `STAGES`에 추가.
 - **링크 넣기**(예: Otherwise 공개): `link`에 주소를 넣고 `note`는 지운다. JSON-LD·llms.txt에도 자동 반영.
 - **사진 바꾸기**: 1:1, 1600px 이상 JPEG를 `public/projects/{id}.jpg`로 교체. 잘릴 때 남길 지점이 가운데가 아니면 `focus`를 적는다.
-- **프로젝트 추가**: `PROJECTS`에 항목 추가(id는 주소가 됨, `audience` 필수). 막대·메뉴·주소·sitemap·JSON-LD·llms.txt가 따라 생긴다. 사진이 없으면 빈 배경이 나오므로 사진을 함께 넣는다.
+- **프로젝트 추가**: `PROJECTS`에 항목 추가(id는 주소가 됨, `audience` 필수, 다른 사이트가 이미 정의한 제품이면 `entityId`에 그 `@id`). 막대·메뉴·주소·sitemap·JSON-LD·llms.txt가 따라 생긴다. 사진이 없으면 빈 배경이 나오므로 사진을 함께 넣는다.
 - **문구 바꾸기**: `lib/copy.ts`. 목업 문구 원칙상 새 문구는 확인 후 반영.
 
 ---
