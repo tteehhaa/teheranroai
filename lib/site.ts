@@ -51,7 +51,7 @@ export function structuredData() {
       ...PROJECTS.filter((p) => p.link).map((p) => ({
         "@type": "SoftwareApplication",
         name: p.name,
-        url: p.link!.href,
+        url: p.link!,
       })),
     ],
   };

@@ -9,6 +9,7 @@ button{font:inherit;color:inherit}
 a:focus-visible,button:focus-visible{outline:2px solid var(--plate);outline-offset:4px;border-radius:3px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .studio.no-anim *{transition:none!important}
+.studio{touch-action:pan-y pinch-zoom}
 
 #gl,#plane,.fallback{position:fixed;inset:0}
 #plane img{display:none}

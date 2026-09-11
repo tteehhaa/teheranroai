@@ -9,7 +9,7 @@ import { mountStudio } from "./controller";
 
 function ProjectLink({ project, lang }: { project: Project; lang: Lang }) {
   return project.link ? (
-    <a href={project.link.href}>{project.link.label[lang]}</a>
+    <a href={project.link}>{COPY[lang].open}</a>
   ) : (
     <span>{project.note?.[lang]}</span>
   );

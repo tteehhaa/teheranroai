@@ -74,8 +74,8 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     $("i-stage").textContent = STAGES[p.stage][lang];
     const node = document.createElement(p.link ? "a" : "span");
     if (p.link) {
-      (node as HTMLAnchorElement).href = p.link.href;
-      node.textContent = p.link.label[lang];
+      (node as HTMLAnchorElement).href = p.link;
+      node.textContent = t.open;
     } else {
       node.textContent = p.note?.[lang] ?? "";
     }
@@ -281,6 +281,33 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     if (i < 0) exit(false);
     else enter(i, false);
   });
+  // In the gallery, a click or tap on the empty stage moves on; a horizontal swipe goes either way.
+  const stageTarget = (e: Event) =>
+    view === "gallery" && !menuOpen() && !(e.target as Element).closest("a, button, #info, #controls, #menu");
+  let swipe: { id: number; x: number; y: number } | null = null;
+  let swiped = false;
+  on<PointerEvent>(root, "pointerdown", (e) => {
+    swiped = false;
+    swipe = e.isPrimary && stageTarget(e) ? { id: e.pointerId, x: e.clientX, y: e.clientY } : null;
+  });
+  on<PointerEvent>(root, "pointerup", (e) => {
+    if (!swipe || e.pointerId !== swipe.id) return;
+    const dx = e.clientX - swipe.x;
+    const dy = e.clientY - swipe.y;
+    swipe = null;
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    swiped = true;
+    go(projectIdx + (dx < 0 ? 1 : -1), "replace");
+  });
+  on(root, "pointercancel", () => (swipe = null));
+  on<MouseEvent>(root, "click", (e) => {
+    if (swiped) {
+      swiped = false;
+      return;
+    }
+    if (stageTarget(e)) go(projectIdx + 1, "replace");
+  });
+
   on<PointerEvent>(plate, "pointermove", (e) => {
     if (reduce || view !== "door") return;
     const r = plate.getBoundingClientRect();
