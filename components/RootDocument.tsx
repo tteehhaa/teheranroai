@@ -16,6 +16,10 @@ export const rootMetadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
+  // Search engine ownership checks (Naver Search Advisor).
+  verification: {
+    other: { "naver-site-verification": "4adc7500201d67530645703944e0e88993d8014f" },
+  },
 };
 
 export const rootViewport: Viewport = {
