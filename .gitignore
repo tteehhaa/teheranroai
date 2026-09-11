@@ -7,4 +7,3 @@ out/
 design/
 *.tsbuildinfo
 next-env.d.ts
-docs/
