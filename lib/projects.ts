@@ -4,6 +4,7 @@ export type Text = Record<Lang, string>;
 // Stage labels. Change a project's `stage` below to move it between stages.
 export const STAGES = {
   live: { ko: "운영 중", en: "Live" },
+  beta: { ko: "베타 운영 중", en: "Beta" },
   building: { ko: "개발 중", en: "Building" },
 } satisfies Record<string, Text>;
 
@@ -58,7 +59,7 @@ export const PROJECTS: Project[] = [
     name: "Bar Route",
     line: { ko: "영미권 변호사 자격 경로 진단", en: "Common-law bar eligibility, mapped" },
     audience: { ko: "영미권 변호사 자격을 알아보는 사람", en: "People looking into common-law bar admission" },
-    stage: "building",
+    stage: "beta",
     link: "https://bar-route.vercel.app/",
     image: "/projects/bar-route.jpg",
     bg: "#F5F6F4",

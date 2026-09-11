@@ -90,10 +90,10 @@
 |---|---|---|---|---|---|---|
 | trops | TROPS | 중소기업 수출 업무 지원 소프트웨어 | Export operations software for small businesses | 운영 중 / Live | https://www.trops.kr/ | `/projects/trops.jpg` |
 | otherwise | Otherwise | 건물 외관·용도 AR 시뮬레이션 | Building facades and uses, reimagined in AR | 개발 중 / Building | 없음 (공개 전) | `/projects/otherwise.jpg` |
-| bar-route | Bar Route | 영미권 변호사 자격 경로 진단 | Common-law bar eligibility, mapped | 개발 중 / Building | https://bar-route.vercel.app/ | `/projects/bar-route.jpg` |
+| bar-route | Bar Route | 영미권 변호사 자격 경로 진단 | Common-law bar eligibility, mapped | 베타 운영 중 / Beta | https://bar-route.vercel.app/ | `/projects/bar-route.jpg` |
 
 - `audience`(대상)는 화면에 나오지 않고 `/llms.txt`에만 쓴다: TROPS "수출 업무를 하는 중소기업 / Small businesses that export", Otherwise "건물과 공간을 기획하는 사람, 디벨로퍼 / Space planners and property developers", Bar Route "영미권 변호사 자격을 알아보는 사람 / People looking into common-law bar admission".
-- 단계 이름은 `STAGES`(live / building)에 있다. 프로젝트의 `stage` 값만 바꾸면 전시·메뉴에 함께 반영된다.
+- 단계 이름은 `STAGES`(live 운영 중·Live / beta 베타 운영 중·Beta / building 개발 중·Building)에 있다. 프로젝트의 `stage` 값만 바꾸면 전시·메뉴에 함께 반영된다.
 - 링크 문구는 프로젝트마다 두지 않고 공통 "열기 / Open"을 쓴다.
 - 링크가 있는 프로젝트는 JSON-LD의 SoftwareApplication에 자동으로 들어간다 (Otherwise는 공개되면 링크만 넣으면 됨).
 - `image`가 없으면 목업의 코드 그림(자리 표시)을 쓴다. `focus`(0–1, object-position과 같은 뜻)는 잘릴 때 남길 지점이며 기본은 가운데.
@@ -185,7 +185,7 @@
 | hreflang | ko, en, x-default(=ko) |
 | OG / Twitter | 페이지별 제목·설명, 이미지 `/og.png`(1200×630, 도로명판), `summary_large_image` |
 | favicon | 방향 표지판(파란 판·흰 테두리·끝이 뾰족함) + Pretendard Bold "AI" 윤곽 + 회색 기둥. `/icon.svg`, `/favicon.ico`(16·32·48), `/apple-icon.png`(180, 종이색 바탕). TROPS의 사각형 아이콘과 구분되도록 윤곽으로 알아보게 함 |
-| JSON-LD | WebSite(`@id` …/#website, description, publisher `{"@id":"https://theo-ne.com/#org"}`) + Organization(같은 `@id`, 이름 (주)테오네 / THÉONÉ Inc., url, email, taxID=사업자등록번호, brand) + SoftwareApplication(name, url만) TROPS·Bar Route |
+| JSON-LD | WebSite(`@id` …/#website, description, publisher `{"@id":"https://theo-ne.com/#org"}`) + Organization(같은 `@id`, 이름 (주)테오네 / THÉONÉ Inc., url, email, taxID=사업자등록번호, brand(name·alternateName "테헤란로 AI 스튜디오"·url, theo-ne.com과 동일)) + SoftwareApplication(name, url만) TROPS·Bar Route |
 | sitemap | 8개 주소(ko·en × 입구·3개 프로젝트), 각 주소에 언어 대체 |
 | robots | 전체 허용, `/licenses`는 페이지에서 `noindex, follow` |
 | llms.txt | llmstxt.org 형식. 브랜드 소개, 만드는 방식, 제품별 한 줄 설명·대상·단계·제품 사이트, 문의(이메일·회사·사업자등록번호, 가격은 싣지 않고 이메일 문의). 전화번호는 없음 |
@@ -237,7 +237,7 @@ public/projects/       프로젝트 사진, public/og.png, public/icon.svg·favi
 
 ## 11. 운영 방법
 
-- **단계 바꾸기**: `lib/projects.ts`에서 해당 프로젝트의 `stage`를 `"live"` 또는 `"building"`으로. 새 단계 이름이 필요하면 같은 파일의 `STAGES`에 추가.
+- **단계 바꾸기**: `lib/projects.ts`에서 해당 프로젝트의 `stage`를 `"live"`, `"beta"`, `"building"` 중 하나로. 새 단계 이름이 필요하면 같은 파일의 `STAGES`에 추가.
 - **링크 넣기**(예: Otherwise 공개): `link`에 주소를 넣고 `note`는 지운다. JSON-LD·llms.txt에도 자동 반영.
 - **사진 바꾸기**: 1:1, 1600px 이상 JPEG를 `public/projects/{id}.jpg`로 교체. 잘릴 때 남길 지점이 가운데가 아니면 `focus`를 적는다.
 - **프로젝트 추가**: `PROJECTS`에 항목 추가(id는 주소가 됨, `audience` 필수). 막대·메뉴·주소·sitemap·JSON-LD·llms.txt가 따라 생긴다. 사진이 없으면 빈 배경이 나오므로 사진을 함께 넣는다.
