@@ -53,6 +53,15 @@ function artArea(W: number, H: number): Area {
   return { x: W * 0.08, y: H * 0.11, w: W * 0.84, h: H * 0.44 };
 }
 
+// Photos bleed to the edge: right side below the header on desktop, top band on mobile.
+function photoArea(W: number, H: number, k: number): Area {
+  if (W / H > 1.1) {
+    const top = 5.25 * 16 * k;
+    return { x: W * 0.45, y: top, w: W * 0.55, h: H - top };
+  }
+  return { x: 0, y: 4.5 * 16 * k, w: W, h: H * 0.52 };
+}
+
 function toImg(c: HTMLCanvasElement, type = "image/jpeg") {
   return new Promise<HTMLImageElement>((res) => {
     const im = new Image();
@@ -288,18 +297,24 @@ function drawBlank(bg: string) {
   return toImg(c);
 }
 
-// A real capture, fitted into the same area the placeholder drawings use.
+// A photo or capture, cropped to fill the photo area around its focus point.
 async function drawCapture(p: Project, src: string) {
   const img = new Image();
   img.src = src;
   await img.decode();
-  const { c, g, W, H } = newCanvas();
+  const { c, g, W, H, k } = newCanvas();
   g.fillStyle = p.bg;
   g.fillRect(0, 0, W, H);
-  const A = artArea(W, H);
-  const s = Math.min(A.w / img.naturalWidth, A.h / img.naturalHeight);
+  const A = photoArea(W, H, k);
+  const s = Math.max(A.w / img.naturalWidth, A.h / img.naturalHeight);
   const w = img.naturalWidth * s, h = img.naturalHeight * s;
-  g.drawImage(img, A.x + (A.w - w) / 2, A.y + (A.h - h) / 2, w, h);
+  const [fx, fy] = p.focus ?? [0.5, 0.5];
+  g.save();
+  g.beginPath();
+  g.rect(A.x, A.y, A.w, A.h);
+  g.clip();
+  g.drawImage(img, A.x + (A.w - w) * fx, A.y + (A.h - h) * fy, w, h);
+  g.restore();
   return toImg(c);
 }
 

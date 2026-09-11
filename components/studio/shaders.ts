@@ -1,4 +1,5 @@
 // Displacement transition from the mockup: activeTex slides out, nextTex slides in.
+// uDirection is 1 moving forward and -1 moving back, which mirrors the displacement.
 export const VERTEX_SHADER = `
   precision mediump float;
   attribute vec3 aVertexPosition;
@@ -29,10 +30,11 @@ export const FRAGMENT_SHADER = `
   uniform sampler2D nextTex;
   uniform float uProgress;
   uniform float uStrength;
+  uniform float uDirection;
   void main() {
     float d = texture2D(displacement, vDispUv).r;
-    vec2 a = vec2(vActiveUv.x - uProgress * d * uStrength, vActiveUv.y);
-    vec2 n = vec2(vNextUv.x + (1.0 - uProgress) * d * uStrength, vNextUv.y);
+    vec2 a = vec2(vActiveUv.x - uDirection * uProgress * d * uStrength, vActiveUv.y);
+    vec2 n = vec2(vNextUv.x + uDirection * (1.0 - uProgress) * d * uStrength, vNextUv.y);
     gl_FragColor = mix(texture2D(activeTex, a), texture2D(nextTex, n), uProgress);
   }
 `;

@@ -18,8 +18,14 @@ export type Project = {
   link?: string;
   /** Shown instead of a link while the project is not public. */
   note?: Text;
-  /** Capture under public/, e.g. "/projects/trops.png". Without it the placeholder drawing is used. */
+  /**
+   * Photo or capture under public/, e.g. "/projects/trops.jpg". It fills the right side (desktop)
+   * or the top (mobile), both close to square, so compose it around 1:1. Without it the
+   * placeholder drawing is used.
+   */
   image?: string;
+  /** Point kept in view when the image is cropped to fill (0–1 each, like object-position). Default centre. */
+  focus?: [number, number];
   /** Slide background, used behind the image. */
   bg: string;
 };
