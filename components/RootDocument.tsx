@@ -7,7 +7,16 @@ import "@/app/globals.css";
 const PRETENDARD_CSS =
   "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css";
 
-export const rootMetadata: Metadata = { metadataBase: new URL(SITE_URL) };
+export const rootMetadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.png",
+  },
+};
 
 export const rootViewport: Viewport = {
   width: "device-width",

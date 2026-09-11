@@ -32,7 +32,7 @@ export const COPY = {
   },
   en: {
     title: "Teheranro AI Studio | 테헤란로 AI 스튜디오",
-    heading: "Software built by someone who reads the contracts.",
+    heading: "Teheranro AI Studio · Software built by someone who reads the contracts.",
     description:
       "Software built by someone who reads the contracts. Teheranro AI Studio is the software brand of THÉONÉ Inc.",
     plateLabel: "Enter: Teheranro AI Studio",
