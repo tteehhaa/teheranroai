@@ -43,7 +43,7 @@ export const PROJECTS: Project[] = [
   {
     id: "otherwise",
     name: "Otherwise",
-    line: { ko: "이 자리, 어떻게 바뀔 수 있을까요", en: "The appearance layer for the physical world" },
+    line: { ko: "건물 외관·용도 AR 시뮬레이션", en: "Building facades and uses, reimagined in AR" },
     stage: "building",
     note: { ko: "공개 전", en: "Not yet public" },
     image: "/projects/otherwise.jpg",

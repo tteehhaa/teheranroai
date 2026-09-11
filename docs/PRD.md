@@ -88,7 +88,7 @@
 | id | 이름 | 한 줄 설명 (ko) | 한 줄 설명 (en) | 단계 | 링크 | 사진 |
 |---|---|---|---|---|---|---|
 | trops | TROPS | 중소기업 수출 업무 지원 소프트웨어 | Export operations software for small businesses | 운영 중 / Live | https://www.trops.kr/ | `/projects/trops.jpg` |
-| otherwise | Otherwise | 이 자리, 어떻게 바뀔 수 있을까요 | The appearance layer for the physical world | 개발 중 / Building | 없음 (공개 전) | `/projects/otherwise.jpg` |
+| otherwise | Otherwise | 건물 외관·용도 AR 시뮬레이션 | Building facades and uses, reimagined in AR | 개발 중 / Building | 없음 (공개 전) | `/projects/otherwise.jpg` |
 | bar-route | Bar Route | 영미권 변호사 자격 경로 진단 | Common-law bar eligibility, mapped | 개발 중 / Building | https://bar-route.vercel.app/ | `/projects/bar-route.jpg` |
 
 - 단계 이름은 `STAGES`(live / building)에 있다. 프로젝트의 `stage` 값만 바꾸면 전시·메뉴에 함께 반영된다.
