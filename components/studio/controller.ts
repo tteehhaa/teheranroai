@@ -36,6 +36,7 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
   let current = view === "gallery" ? projectIdx + 1 : 0;
   let busy = false;
   let pending: number | null = null;
+  let pendingDir = 1;
   let paused = reduce;
   let hoverPause = false;
   let elapsed = 0;
@@ -109,13 +110,15 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     );
   }
 
-  function transitionTo(target: number, done?: () => void) {
+  // dir: 1 moving forward, -1 moving back; mirrors the displacement direction.
+  function transitionTo(target: number, done?: () => void, dir = target > current ? 1 : -1) {
     if (target === current) {
       done?.();
       return;
     }
     if (busy) {
       pending = target;
+      pendingDir = dir;
       return;
     }
     busy = true;
@@ -127,7 +130,7 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
       if (pending !== null && pending !== current) {
         const p = pending;
         pending = null;
-        transitionTo(p);
+        transitionTo(p, undefined, pendingDir);
       } else pending = null;
     };
     if (gl && slides[target]) {
@@ -140,6 +143,7 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
         finish();
         return;
       }
+      plane.uniforms.direction.value = dir;
       curtains.enableDrawing();
       const t0 = performance.now();
       const step = (now: number) => {
@@ -175,7 +179,7 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     }, DUR * 0.55);
   }
 
-  function go(i: number, mode?: "push" | "replace") {
+  function go(i: number, mode?: "push" | "replace", dir = 1) {
     projectIdx = (i + PROJECTS.length) % PROJECTS.length;
     elapsed = 0;
     const url = projectPath(lang, PROJECTS[projectIdx].id);
@@ -183,7 +187,7 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     else if (mode === "replace") history.replaceState(null, "", url);
     syncPage();
     swapInfo(projectIdx);
-    transitionTo(projectIdx + 1);
+    transitionTo(projectIdx + 1, undefined, dir);
   }
 
   function enter(i: number, push: boolean) {
@@ -259,7 +263,8 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
   on<MouseEvent>($("bars"), "click", (e) => {
     const b = (e.target as Element).closest<HTMLElement>(".bar");
     if (!b) return;
-    go(bars.indexOf(b), "replace");
+    const j = bars.indexOf(b);
+    go(j, "replace", j < projectIdx ? -1 : 1);
   });
   on($("pause"), "click", () => {
     paused = !paused;
@@ -273,7 +278,7 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     if (e.key === "Escape" && menuOpen()) closeMenu();
     else if (view === "gallery" && !menuOpen()) {
       if (e.key === "ArrowRight") go(projectIdx + 1, "replace");
-      if (e.key === "ArrowLeft") go(projectIdx - 1, "replace");
+      if (e.key === "ArrowLeft") go(projectIdx - 1, "replace", -1);
     }
   });
   on(window, "popstate", () => {
@@ -297,7 +302,8 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     swipe = null;
     if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
     swiped = true;
-    go(projectIdx + (dx < 0 ? 1 : -1), "replace");
+    const dir = dx < 0 ? 1 : -1;
+    go(projectIdx + dir, "replace", dir);
   });
   on(root, "pointercancel", () => (swipe = null));
   on<MouseEvent>(root, "click", (e) => {
@@ -375,6 +381,7 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
       uniforms: {
         progress: { name: "uProgress", type: "1f", value: 0 },
         strength: { name: "uStrength", type: "1f", value: STRENGTH },
+        direction: { name: "uDirection", type: "1f", value: 1 },
       },
     });
     plane.onReady(() => {
