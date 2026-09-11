@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BRAND, COPY, PLATE } from "./copy";
+import { BRAND, BUSINESS_NO, COMPANY_NAME, COMPANY_URL, CONTACT_EMAIL, COPY, PLATE } from "./copy";
 import { pagePath } from "./paths";
 import { PROJECTS, findProject, type Lang } from "./projects";
 
@@ -34,7 +34,8 @@ export function pageMetadata(lang: Lang, id?: string): Metadata {
   };
 }
 
-// WebSite node plus one SoftwareApplication (name and url only) per publicly linked project.
+// WebSite and its publisher (company contact details as text), plus one SoftwareApplication
+// (name and url only) per publicly linked project.
 export function structuredData() {
   return {
     "@context": "https://schema.org",
@@ -45,8 +46,19 @@ export function structuredData() {
         url: `${SITE_URL}/`,
         name: BRAND,
         alternateName: PLATE.ko,
+        description: COPY.ko.description,
         inLanguage: ["ko", "en"],
         publisher: { "@id": PUBLISHER_ID },
+      },
+      {
+        "@type": "Organization",
+        "@id": PUBLISHER_ID,
+        name: COMPANY_NAME.ko,
+        alternateName: COMPANY_NAME.en,
+        url: COMPANY_URL,
+        email: CONTACT_EMAIL,
+        taxID: BUSINESS_NO,
+        brand: { "@type": "Brand", name: BRAND },
       },
       ...PROJECTS.filter((p) => p.link).map((p) => ({
         "@type": "SoftwareApplication",
