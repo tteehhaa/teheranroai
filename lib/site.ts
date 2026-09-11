@@ -58,7 +58,7 @@ export function structuredData() {
         url: COMPANY_URL,
         email: CONTACT_EMAIL,
         taxID: BUSINESS_NO,
-        brand: { "@type": "Brand", name: BRAND },
+        brand: { "@type": "Brand", name: BRAND, alternateName: PLATE.ko, url: `${SITE_URL}/` },
       },
       ...PROJECTS.filter((p) => p.link).map((p) => ({
         "@type": "SoftwareApplication",
