@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 |---|---|
 | 대상 | https://www.teheranro-ai.com/ |
-| 문서 기준 | 2026-09-11 운영 배포 상태 (main `6e39aa6`, PR #9 병합 시점) |
+| 문서 기준 | 2026-09-11 운영 배포 상태 (PR #12 병합 시점) |
 | 상태 | 운영 중 |
 | 저장소 | github.com/tteehhaa/teheranroai (공개) |
 | 디자인 기준 | `design/teheranro-ai-mockup.html` (로컬 전용, 저장소에는 올리지 않음) |
@@ -29,7 +29,6 @@
 - 문의 폼, 뉴스레터, 회원·로그인
 - 분석 도구(애널리틱스), 쿠키
 - CMS, 블로그, 서버 API
-- favicon (미정, 16장 참고)
 
 ---
 
@@ -99,8 +98,7 @@
 
 ### 4.2 공통 문구 (`lib/copy.ts`)
 - 목업의 한국어 문구와 `data-en` 값을 그대로 쓴다.
-- 목업에 없던 문구로 확정된 것: /en h1·description("Software built by someone who reads the contracts. …"), Otherwise 한국어 한 줄 설명.
-- 목업에 영문값이 없어 임시로 넣은 화면 비노출 라벨: 입구 섹션 `Entrance`, 언어 그룹 `Language` (확정 대기).
+- 목업에 없던 문구로 확정된 것: /en h1("Teheranro AI Studio · Software built by someone who reads the contracts.")·description, Otherwise 한국어 한 줄 설명, 영문판 화면 비노출 라벨(입구 섹션 `Entrance`, 언어 그룹 `Language`).
 
 ### 4.3 사진 자산 (`public/projects/`)
 
@@ -166,7 +164,7 @@
 ---
 
 ## 7. 접근성
-- 페이지마다 화면에서 숨긴 h1(ko: "Teheranro AI Studio · 계약서를 읽는 사람이 만드는 소프트웨어", en: "Software built by someone who reads the contracts.").
+- 페이지마다 화면에서 숨긴 h1(ko: "Teheranro AI Studio · 계약서를 읽는 사람이 만드는 소프트웨어", en: "Teheranro AI Studio · Software built by someone who reads the contracts.").
 - 도로명판은 `aria-label`이 있는 버튼("들어가기: 테헤란로 AI 스튜디오").
 - 전시 섹션 `aria-roledescription="carousel"`, 막대마다 프로젝트 이름 라벨과 `aria-current`.
 - 메뉴: `role="dialog"`, `aria-modal`, 열리면 뒤쪽 `main`에 `inert`, 닫기 버튼으로 포커스 이동, 닫으면 메뉴 버튼으로 포커스 복귀, Esc로 닫기.
@@ -184,6 +182,7 @@
 | canonical | `https://www.teheranro-ai.com/...` 페이지별 |
 | hreflang | ko, en, x-default(=ko) |
 | OG / Twitter | 페이지별 제목·설명, 이미지 `/og.png`(1200×630, 도로명판), `summary_large_image` |
+| favicon | 방향 표지판(파란 판·흰 테두리·끝이 뾰족함) + Pretendard Bold "AI" 윤곽 + 회색 기둥. `/icon.svg`, `/favicon.ico`(16·32·48), `/apple-icon.png`(180, 종이색 바탕). TROPS의 사각형 아이콘과 구분되도록 윤곽으로 알아보게 함 |
 | JSON-LD | WebSite(`@id` …/#website, publisher `{"@id":"https://theo-ne.com/#org"}`) + SoftwareApplication(name, url만) TROPS·Bar Route |
 | sitemap | 8개 주소(ko·en × 입구·3개 프로젝트), 각 주소에 언어 대체 |
 | robots | 전체 허용, `/licenses`는 페이지에서 `noindex, follow` |
@@ -213,7 +212,7 @@ lib/site.ts            메타데이터, JSON-LD
 lib/licenses.ts        /licenses 내용 (빌드 시 node_modules에서 읽음)
 components/studio/     Studio.tsx(마크업), controller.ts(동작), textures.ts(캔버스), shaders.ts
 app/(ko)/..., app/(en)/en/...   페이지
-public/projects/       프로젝트 사진, public/og.png
+public/projects/       프로젝트 사진, public/og.png, public/icon.svg·favicon.ico·apple-icon.png
 ```
 
 ---
@@ -261,10 +260,10 @@ public/projects/       프로젝트 사진, public/og.png
 
 | # | 항목 | 상태 |
 |---|---|---|
-| 1 | 영문판 화면 비노출 라벨 `Entrance`, `Language` 확정 | 대기 |
-| 2 | /en h1에 브랜드명을 붙일지 ("Teheranro AI Studio · …") | 대기 |
-| 3 | favicon | 미정 |
-| 4 | 사진 출처를 /licenses에 표시할지 (의무 없음) | 대기 |
+| 1 | 영문판 화면 비노출 라벨 `Entrance`, `Language` 확정 | 완료 — 그대로 사용 |
+| 2 | /en h1에 브랜드명을 붙일지 ("Teheranro AI Studio · …") | 완료 — 붙임 (#12) |
+| 3 | favicon | 완료 — 방향 표지판 + AI (#12) |
+| 4 | 사진 출처를 /licenses에 표시할지 (의무 없음) | 완료 — 사이트에는 표시하지 않고 이 문서 4.3에 기록 |
 | 5 | TROPS 사진을 실제 제품 화면이나 한국 항만 사진으로 바꿀지 | 검토 |
 | 6 | 사진 보정 스크립트를 저장소에 둘지 (지금은 로컬에만 있음) | 검토 |
 | 7 | pnpm 11로 올릴 때 override를 `pnpm-workspace.yaml`로 이동 | 해당 시 |
@@ -279,3 +278,5 @@ public/projects/       프로젝트 사진, public/og.png
 | 2026-09-11 | #7 | v0 랜딩을 목업 기준(입구·전시·메뉴)으로 개편, 라우팅·메타데이터·/licenses, 프로젝트 사진 |
 | 2026-09-11 | #8 | Next.js 16.1.6 → 16.3.4 보안 패치 |
 | 2026-09-11 | #9 | 사진 배치 B(반쯤 채우기), 1:1 크롭, 방향에 따른 전환 |
+| 2026-09-11 | #10, #11 | `docs/` 로컬 전용 → PRD 저장소에 추가 |
+| 2026-09-11 | #12 | 영문 h1에 브랜드명, favicon(방향 표지판 + AI), 미결 1~4 정리 |
