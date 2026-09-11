@@ -19,6 +19,8 @@ export type Project = {
   stage: Stage;
   /** Public URL, shown as COPY.open. Projects with a link are also listed as SoftwareApplication in JSON-LD. */
   link?: string;
+  /** JSON-LD @id when another site already defines this product (TROPS on theo-ne.com). Default: SITE_URL/#id. */
+  entityId?: string;
   /** Shown instead of a link while the project is not public. */
   note?: Text;
   /**
@@ -41,6 +43,7 @@ export const PROJECTS: Project[] = [
     audience: { ko: "수출 업무를 하는 중소기업", en: "Small businesses that export" },
     stage: "live",
     link: "https://www.trops.kr/",
+    entityId: "https://theo-ne.com/#trops",
     image: "/projects/trops.jpg",
     bg: "#F5F6F4",
   },

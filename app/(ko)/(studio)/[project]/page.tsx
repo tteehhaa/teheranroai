@@ -1,5 +1,5 @@
-import { COPY } from "@/lib/copy";
-import { PROJECTS } from "@/lib/projects";
+import { StructuredData } from "@/components/StructuredData";
+import { PROJECTS, findProject } from "@/lib/projects";
 import { pageMetadata } from "@/lib/site";
 
 type Props = { params: Promise<{ project: string }> };
@@ -14,7 +14,14 @@ export async function generateMetadata({ params }: Props) {
   return pageMetadata("ko", (await params).project);
 }
 
-// The project's name and line are server-rendered by <Studio> in the gallery info panel.
-export default function ProjectPage() {
-  return <h1 className="sr-only">{COPY.ko.heading}</h1>;
+// The heading names the project; <Studio> also server-renders it in the gallery info panel.
+export default async function ProjectPage({ params }: Props) {
+  const { project: id } = await params;
+  const project = findProject(id)!;
+  return (
+    <>
+      <StructuredData lang="ko" id={id} />
+      <h1 className="sr-only">{`${project.name} · ${project.line.ko}`}</h1>
+    </>
+  );
 }
