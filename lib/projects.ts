@@ -13,6 +13,8 @@ export type Project = {
   id: string;
   name: string;
   line: Text;
+  /** Who it is for. Not shown on screen; used in /llms.txt. */
+  audience: Text;
   stage: Stage;
   /** Public URL, shown as COPY.open. Projects with a link are also listed as SoftwareApplication in JSON-LD. */
   link?: string;
@@ -35,6 +37,7 @@ export const PROJECTS: Project[] = [
     id: "trops",
     name: "TROPS",
     line: { ko: "중소기업 수출 업무 지원 소프트웨어", en: "Export operations software for small businesses" },
+    audience: { ko: "수출 업무를 하는 중소기업", en: "Small businesses that export" },
     stage: "live",
     link: "https://www.trops.kr/",
     image: "/projects/trops.jpg",
@@ -44,6 +47,7 @@ export const PROJECTS: Project[] = [
     id: "otherwise",
     name: "Otherwise",
     line: { ko: "건물 외관·용도 AR 시뮬레이션", en: "Building facades and uses, reimagined in AR" },
+    audience: { ko: "건물과 공간을 기획하는 사람, 디벨로퍼", en: "Space planners and property developers" },
     stage: "building",
     note: { ko: "공개 전", en: "Not yet public" },
     image: "/projects/otherwise.jpg",
@@ -53,6 +57,7 @@ export const PROJECTS: Project[] = [
     id: "bar-route",
     name: "Bar Route",
     line: { ko: "영미권 변호사 자격 경로 진단", en: "Common-law bar eligibility, mapped" },
+    audience: { ko: "영미권 변호사 자격을 알아보는 사람", en: "People looking into common-law bar admission" },
     stage: "building",
     link: "https://bar-route.vercel.app/",
     image: "/projects/bar-route.jpg",
