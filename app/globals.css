@@ -68,8 +68,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--plate);outline-offs
 .m-stage{font-size:14px;color:var(--muted);white-space:nowrap}
 .m-link{font-size:14px;white-space:nowrap}
 .m-link span{color:var(--muted)}
-.m-steps{list-style:none;margin:0 0 3rem;padding:0;font-size:1.05rem}
-.m-steps li{padding:.2rem 0}
+.m-steps{margin:0 0 3rem;font-size:1.05rem;line-height:1.75;max-width:24rem}
+.m-steps span{display:block}
 .m-mail{font-size:1.25rem;font-weight:500}
 .menu-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:1.5rem}
 .menu-foot p{margin:0}

@@ -108,9 +108,9 @@ export function Studio({ lang, children }: { lang: Lang; children?: ReactNode })
             </div>
             <div>
               <p className="m-label">{t.howWeBuild}</p>
-              <ol className="m-steps">
-                {t.steps.map((s) => <li key={s}>{s}</li>)}
-              </ol>
+              <p className="m-steps">
+                {t.steps.map((s) => <span key={s}>{s} </span>)}
+              </p>
               <p className="m-label">{t.contact}</p>
               <a className="m-mail" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
             </div>
