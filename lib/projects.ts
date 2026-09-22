@@ -67,6 +67,16 @@ export const PROJECTS: Project[] = [
     image: "/projects/bar-route.jpg",
     bg: "#F5F6F4",
   },
+  {
+    id: "beacon",
+    name: "Beacon",
+    line: { ko: "생성형 엔진 최적화(GEO) 진단", en: "Generative engine optimization, measured" },
+    audience: { ko: "AI 답변에 노출되고 싶은 사이트 운영자와 마케터", en: "Site owners and marketers who want to appear in AI answers" },
+    stage: "live",
+    link: "https://beacon-audit-prodigy212-lgtm.vercel.app/",
+    image: "/projects/beacon.jpg",
+    bg: "#F5F6F4",
+  },
 ];
 
 export function findProject(id: string) {

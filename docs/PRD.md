@@ -37,9 +37,9 @@
 | 주소 | 화면 | 언어 | 비고 |
 |---|---|---|---|
 | `/` | 입구(도로명판) | ko | |
-| `/trops`, `/otherwise`, `/bar-route` | 해당 프로젝트에서 전시 시작 | ko | 정적 생성, 그 밖의 값은 404 |
+| `/trops`, `/otherwise`, `/bar-route`, `/beacon` | 해당 프로젝트에서 전시 시작 | ko | 정적 생성, 그 밖의 값은 404 |
 | `/en` | 입구 | en | |
-| `/en/trops`, `/en/otherwise`, `/en/bar-route` | 해당 프로젝트에서 전시 시작 | en | |
+| `/en/trops`, `/en/otherwise`, `/en/bar-route`, `/en/beacon` | 해당 프로젝트에서 전시 시작 | en | |
 | `/licenses` | 오픈소스 고지 | ko | 한 페이지, 영문판 없음, `noindex` |
 | `/sitemap.xml`, `/robots.txt` | 검색엔진용 | — | |
 | `/llms.txt` | AI 안내문 (텍스트) | en·ko 병기 | `lib/projects.ts`·`lib/copy.ts`에서 빌드 시 생성 |
@@ -91,6 +91,7 @@
 | trops | TROPS | 중소기업 수출 업무 지원 소프트웨어 | Export operations software for small businesses | 운영 중 / Live | https://www.trops.kr/ | `/projects/trops.jpg` |
 | otherwise | Otherwise | 건물 외관·용도 AR 시뮬레이션 | Building facades and uses, reimagined in AR | 개발 중 / Building | 없음 (공개 전) | `/projects/otherwise.jpg` |
 | bar-route | Bar Route | 영미권 변호사 자격 경로 진단 | Common-law bar eligibility, mapped | 베타 운영 중 / Beta | https://bar-route.vercel.app/ | `/projects/bar-route.jpg` |
+| beacon | Beacon | 생성형 엔진 최적화(GEO) 진단 | Generative engine optimization, measured | 운영 중 / Live | https://beacon-audit-prodigy212-lgtm.vercel.app/ | `/projects/beacon.jpg` |
 
 - `audience`(대상)는 화면에 나오지 않고 `/llms.txt`에만 쓴다: TROPS "수출 업무를 하는 중소기업 / Small businesses that export", Otherwise "건물과 공간을 기획하는 사람, 디벨로퍼 / Space planners and property developers", Bar Route "영미권 변호사 자격을 알아보는 사람 / People looking into common-law bar admission".
 - 단계 이름은 `STAGES`(live 운영 중·Live / beta 베타 운영 중·Beta / building 개발 중·Building)에 있다. 프로젝트의 `stage` 값만 바꾸면 전시·메뉴에 함께 반영된다.
@@ -109,6 +110,7 @@
 | trops.jpg | Pexels (pexels-lange-x-2151365597-34866012) 방파제·등대·배 | Pexels 라이선스(상업 이용·수정 가능, 출처 표시 의무 없음) | 1:1 크롭(등대와 배 포함), 채도 0.62, 푸른 기 감소 |
 | otherwise.jpg | Pexels (pexels-postiglioni-2374976) 새 건물과 옛 건물 | 동일 | 경계 가운데 1:1 크롭, 청록 보정 + 채도 0.42 |
 | bar-route.jpg | 직접 촬영 (뉴욕 카운티 법원, 2025-10-28) | 소유 | 박공~계단 위 1:1 크롭(사람·차 제외), 채도 0.85 |
+| beacon.jpg | Pexels (photos/33230164, Enes Erdemli) 이스탄불 베야지트 탑 — 통신 안테나를 얹은 석탑 | Pexels 라이선스(상업 이용·수정 가능, 출처 표시 의무 없음) | 위에서 25% 지점 기준 폭 전체 1:1 크롭(첨탑~지붕선), 채도 0.70 |
 
 - 공통: 대비 0.94, 밝기 1.03, 1600×1600 JPEG(품질 82), 메타데이터(위치 포함) 제거.
 - 보정 스크립트는 현재 저장소에 없다 (16장 참고).
@@ -186,8 +188,8 @@
 | OG / Twitter | 페이지별 제목·설명, 이미지 `/og.png`(1200×630, 도로명판), `summary_large_image` |
 | favicon | 방향 표지판(파란 판·흰 테두리·끝이 뾰족함) + Pretendard Bold "AI" 윤곽 + 회색 기둥. `/icon.svg`, `/favicon.ico`(16·32·48), `/apple-icon.png`(180, 종이색 바탕). TROPS의 사각형 아이콘과 구분되도록 윤곽으로 알아보게 함 |
 | 소유 확인 | 네이버 서치어드바이저 `naver-site-verification` meta (모든 페이지 head, `components/RootDocument.tsx`의 `verification`). Google Search Console은 코드를 받으면 같은 곳에 추가 |
-| JSON-LD | WebSite(`@id` …/#website, description, publisher `{"@id":"https://theo-ne.com/#org"}`) + Organization(같은 `@id`, 이름 (주)테오네 / THÉONÉ Inc., url, email, taxID=사업자등록번호, brand(name·alternateName "테헤란로 AI 스튜디오"·url, theo-ne.com과 동일)) + SoftwareApplication(`@id`, name, 페이지 언어의 한 줄 설명, url, publisher) TROPS·Bar Route + WebPage(`@id` {주소}#webpage, 페이지 제목·설명, inLanguage, isPartOf WebSite, about = 링크 있는 프로젝트면 그 SoftwareApplication, 아니면 회사). 페이지마다 한 그래프를 페이지 컴포넌트에서 렌더. SoftwareApplication `@id`는 기본 `https://www.teheranro-ai.com/#{id}`, TROPS는 theo-ne.com과 같은 `https://theo-ne.com/#trops` |
-| sitemap | 8개 주소(ko·en × 입구·3개 프로젝트), 각 주소에 언어 대체 |
+| JSON-LD | WebSite(`@id` …/#website, description, publisher `{"@id":"https://theo-ne.com/#org"}`) + Organization(같은 `@id`, 이름 (주)테오네 / THÉONÉ Inc., url, email, taxID=사업자등록번호, brand(name·alternateName "테헤란로 AI 스튜디오"·url, theo-ne.com과 동일)) + SoftwareApplication(`@id`, name, 페이지 언어의 한 줄 설명, url, publisher) TROPS·Bar Route·Beacon + WebPage(`@id` {주소}#webpage, 페이지 제목·설명, inLanguage, isPartOf WebSite, about = 링크 있는 프로젝트면 그 SoftwareApplication, 아니면 회사). 페이지마다 한 그래프를 페이지 컴포넌트에서 렌더. SoftwareApplication `@id`는 기본 `https://www.teheranro-ai.com/#{id}`, TROPS는 theo-ne.com과 같은 `https://theo-ne.com/#trops` |
+| sitemap | 10개 주소(ko·en × 입구·4개 프로젝트), 각 주소에 언어 대체 |
 | robots | 전체 허용, `/licenses`는 페이지에서 `noindex, follow` |
 | llms.txt | llmstxt.org 형식. 브랜드 소개, 만드는 방식, 제품별 한 줄 설명·대상·단계·제품 사이트, 문의(이메일·회사·사업자등록번호, 가격은 싣지 않고 이메일 문의). 전화번호는 없음 |
 | 금지 | keywords 메타 없음, hanabeomlaw.com 링크·언급 없음, gmail 주소 없음 |
