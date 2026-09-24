@@ -24,11 +24,12 @@
 - 한국어·영어 두 언어, 프로젝트별 주소
 - 검색·공유용 메타데이터(canonical, hreflang, OG, JSON-LD, sitemap)
 - 오픈소스 라이선스 페이지
+- 자체 방문 분석과 관리자 대시보드 `/admin` (자세한 내용은 `docs/admin-analytics.md`)
 
 ### 1.3 범위에 들어가지 않는 것 (현재 없음)
 - 문의 폼, 뉴스레터, 회원·로그인
-- 분석 도구(애널리틱스), 쿠키
-- CMS, 블로그, 서버 API
+- 방문자용 쿠키, 외부 분석 도구(GA 등)
+- CMS, 블로그
 
 ---
 
@@ -43,6 +44,8 @@
 | `/licenses` | 오픈소스 고지 | ko | 한 페이지, 영문판 없음, `noindex` |
 | `/sitemap.xml`, `/robots.txt` | 검색엔진용 | — | |
 | `/llms.txt` | AI 안내문 (텍스트) | en·ko 병기 | `lib/projects.ts`·`lib/copy.ts`에서 빌드 시 생성 |
+| `/admin` | 방문 분석 대시보드 | ko | 로그인 필요, `noindex`·robots 차단. `/admin/`은 `/admin`으로 리디렉션 |
+| `/api/collect`, `/api/admin/*` | 방문 수집·관리자 API | — | robots 차단 |
 | 그 외 | 404 | — | Next 기본 404 |
 
 - 루트 도메인 `teheranro-ai.com`은 `www.teheranro-ai.com`으로 308 리디렉션된다. canonical은 www 기준이다.
@@ -201,7 +204,8 @@
 | 항목 | 내용 |
 |---|---|
 | 프레임워크 | Next.js 16.3.4 (App Router, Turbopack), React(Next 내장본) |
-| 렌더링 | 모든 페이지 정적 생성 |
+| 렌더링 | 모든 페이지 정적 생성. `/api/*`만 서버리스 함수 |
+| 방문 분석 | 자체 수집기(`lib/analytics/client.ts`) → `/api/collect` → Supabase `pp_a`의 `teheranro_page_views`. 대시보드는 `public/admin/` 정적 페이지 |
 | 레이아웃 | 언어별 루트 레이아웃 `app/(ko)`, `app/(en)` (html lang 분리). 전시 컴포넌트는 `(ko)/(studio)/layout.tsx`, `(en)/en/layout.tsx`에 상주 |
 | WebGL | curtainsjs 8.1.6 (버전 고정, npm). 클라이언트 `useEffect` 안에서 동적 import, 언마운트 시 `dispose` |
 | 스타일 | 일반 CSS 한 파일(`app/globals.css`, 목업 CSS 이식). Tailwind 없음 |
@@ -220,6 +224,10 @@ lib/licenses.ts        /licenses 내용 (빌드 시 node_modules에서 읽음)
 components/studio/     Studio.tsx(마크업), controller.ts(동작), textures.ts(캔버스), shaders.ts
 app/(ko)/..., app/(en)/en/...   페이지
 public/projects/       프로젝트 사진, public/og.png, public/icon.svg·favicon.ico·apple-icon.png
+lib/analytics/         방문 수집기(client.ts), 서버 공용(auth·request·supabase), 집계(aggregate.ts)
+app/api/               /api/collect, /api/admin/{login,logout,session,stats}
+public/admin/          관리자 대시보드 (빌드 없는 HTML + JS)
+supabase/migrations/   방문 분석 테이블 (teheranro_ 접두사)
 ```
 
 ---
@@ -288,3 +296,4 @@ public/projects/       프로젝트 사진, public/og.png, public/icon.svg·favi
 | 2026-09-11 | #9 | 사진 배치 B(반쯤 채우기), 1:1 크롭, 방향에 따른 전환 |
 | 2026-09-11 | #10, #11 | `docs/` 로컬 전용 → PRD 저장소에 추가 |
 | 2026-09-11 | #12 | 영문 h1에 브랜드명, favicon(방향 표지판 + AI), 미결 1~4 정리 |
+| 2026-09-24 | — | 방문 분석 수집기와 관리자 대시보드 `/admin` (theo-ne.com/admin과 같은 구조) |

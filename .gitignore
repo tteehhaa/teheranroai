@@ -7,3 +7,6 @@ out/
 design/
 *.tsbuildinfo
 next-env.d.ts
+supabase/.temp/
+.vercel
+!.env.example

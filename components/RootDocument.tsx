@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { Analytics } from "@/components/Analytics";
 import type { Lang } from "@/lib/projects";
 import { SITE_URL } from "@/lib/site";
 import "@/app/globals.css";
@@ -36,7 +37,10 @@ export function RootDocument({ lang, children }: { lang: Lang; children: ReactNo
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link rel="stylesheet" href={PRETENDARD_CSS} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

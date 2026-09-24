@@ -1,5 +1,6 @@
 import type { Curtains, Plane, Texture } from "curtainsjs";
 import { BRAND, COPY, PLATE } from "@/lib/copy";
+import { trackView } from "@/lib/analytics/client";
 import { doorPath, pagePath, projectIndexFromPath, projectPath } from "@/lib/paths";
 import { PROJECTS, STAGES, type Lang } from "@/lib/projects";
 import { FRAGMENT_SHADER, VERTEX_SHADER } from "./shaders";
@@ -96,6 +97,12 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     const p = view === "gallery" ? PROJECTS[projectIdx] : undefined;
     document.title = p ? `${p.name} | ${BRAND}` : t.title;
     langLinks.forEach((a) => a.setAttribute("href", pagePath(a.hreflang as Lang, p?.id)));
+    reportView();
+  }
+
+  // Tells the visit collector what is on screen, so the dashboard can show what each visitor looked at.
+  function reportView() {
+    trackView(menuOpen() ? "menu" : view === "gallery" ? PROJECTS[projectIdx].id : "door");
   }
 
   function syncFallback() {
@@ -235,6 +242,7 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     root.classList.add("menu-open");
     menu.removeAttribute("inert");
     main.setAttribute("inert", "");
+    reportView();
     later(() => $("menu-close").focus(), 50);
   }
 
@@ -243,6 +251,7 @@ export function mountStudio(root: HTMLElement, lang: Lang): () => void {
     root.classList.remove("menu-open");
     menu.setAttribute("inert", "");
     main.removeAttribute("inert");
+    reportView();
     if (!silent) $("menu-open").focus();
   }
 
