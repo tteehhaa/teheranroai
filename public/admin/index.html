@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The dashboard is behind a login, but a stray link should not put it in
+         an index either. robots.txt disallows it and this is the second lock. -->
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Teheranro AI 방문 분석</title>
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    />
+    <style>
+      :root {
+        --paper: #ffffff;
+        --shell: #f6f7f8;
+        --ink: #1c2024;
+        --muted: #6a7177;
+        --rule: #e3e6e4;
+        --plate: #1f4a96;
+        --plate-soft: #e8eef8;
+        --warn: #9a3412;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #16191c;
+          --shell: #0f1113;
+          --ink: #e8eaec;
+          --muted: #949ba1;
+          --rule: #2a2f34;
+          --plate: #7aa5e8;
+          --plate-soft: #1b2738;
+          --warn: #f0a868;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--shell);
+        color: var(--ink);
+        font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+          system-ui, sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: var(--plate); }
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 16px 72px; }
+
+      header.bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      header.bar h1 { font-size: 19px; margin: 0; letter-spacing: -0.01em; }
+      header.bar h1 small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
+      .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+      button, select {
+        font: inherit;
+        color: var(--ink);
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        padding: 7px 12px;
+        cursor: pointer;
+      }
+      button.primary { background: var(--plate); border-color: var(--plate); color: #fff; }
+      button:disabled { opacity: 0.55; cursor: default; }
+      label.check { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); font-size: 13px; }
+
+      .grid { display: grid; gap: 14px; }
+      .kpis { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+      .cols-2 { grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); }
+      .cols-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+      .card {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 16px;
+      }
+      .card h2 {
+        margin: 0 0 12px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: var(--muted);
+      }
+      .kpi .value { font-size: 30px; font-weight: 650; letter-spacing: -0.02em; line-height: 1.15; }
+      .kpi .note { font-size: 12px; color: var(--muted); }
+
+      table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+      th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+      th { color: var(--muted); font-weight: 500; font-size: 12px; }
+      td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+      tbody tr:last-child td { border-bottom: 0; }
+
+      /* A bar drawn behind the row keeps the ranking readable without a chart. */
+      .bar-cell { position: relative; }
+      .bar-cell .fill {
+        position: absolute;
+        inset: 2px auto 2px 0;
+        background: var(--plate-soft);
+        border-radius: 4px;
+        z-index: 0;
+      }
+      .bar-cell .label { position: relative; z-index: 1; }
+
+      .card h3.sub { margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--muted); }
+      .card h3.sub + table { margin-bottom: 14px; }
+      .card h3.sub + table:last-child { margin-bottom: 0; }
+      .empty { color: var(--muted); font-size: 13px; padding: 6px 2px; }
+      .chart { width: 100%; height: 150px; display: block; }
+      .chart .axis { fill: var(--muted); font-size: 10px; }
+      .chart .bar { fill: var(--plate); opacity: 0.85; }
+
+      /* The visit list can run to a couple of hundred rows; it scrolls inside
+         its card so the page keeps a sane length. */
+      #sessions { max-height: 62vh; overflow-y: auto; }
+      details.session { border-bottom: 1px solid var(--rule); }
+      details.session:last-child { border-bottom: 0; }
+      details.session > summary {
+        display: grid;
+        grid-template-columns: 132px 1fr auto;
+        gap: 10px;
+        align-items: baseline;
+        padding: 9px 4px;
+        cursor: pointer;
+        font-size: 13.5px;
+      }
+      details.session > summary::-webkit-details-marker { display: none; }
+      details.session .who { color: var(--muted); font-variant-numeric: tabular-nums; }
+      details.session .dur { color: var(--muted); font-size: 12px; white-space: nowrap; }
+      details.session .detail { padding: 4px 4px 14px; font-size: 13px; }
+      details.session .detail dt { color: var(--muted); font-size: 12px; margin-top: 8px; }
+      details.session .detail dd { margin: 2px 0 0; }
+      .chip {
+        display: inline-block;
+        background: var(--plate-soft);
+        border-radius: 999px;
+        padding: 2px 9px;
+        margin: 2px 4px 2px 0;
+        font-size: 12px;
+      }
+      .bot { color: var(--warn); font-size: 11px; }
+
+      /* Sign-in */
+      .login { max-width: 340px; margin: 12vh auto; }
+      .login h1 { font-size: 18px; margin: 0 0 4px; }
+      .login p.sub { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+      .login label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 4px; }
+      .login input {
+        width: 100%;
+        font: inherit;
+        color: var(--ink);
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        padding: 9px 11px;
+      }
+      .login button { width: 100%; margin-top: 18px; padding: 10px; }
+      .msg { color: var(--warn); font-size: 13px; min-height: 20px; margin-top: 10px; }
+      .hidden { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <!-- Sign-in -->
+    <section id="login-view" class="wrap hidden">
+      <form class="card login" id="login-form" autocomplete="on">
+        <h1>Teheranro AI 방문 분석</h1>
+        <p class="sub">관리자만 볼 수 있는 페이지입니다.</p>
+        <label for="username">아이디</label>
+        <input id="username" name="username" autocomplete="username" required autocapitalize="off" spellcheck="false" />
+        <label for="password">비밀번호</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+        <button class="primary" type="submit">로그인</button>
+        <p class="msg" id="login-msg" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- Dashboard -->
+    <main id="dash-view" class="wrap hidden">
+      <header class="bar">
+        <h1>
+          방문 분석
+          <small id="range-note">teheranro-ai.com · 한국 표준시 기준</small>
+        </h1>
+        <div class="controls">
+          <select id="range" aria-label="조회 기간">
+            <option value="1">오늘 (24시간)</option>
+            <option value="7">최근 7일</option>
+            <option value="30" selected>최근 30일</option>
+            <option value="90">최근 90일</option>
+            <option value="365">최근 1년</option>
+          </select>
+          <label class="check"><input type="checkbox" id="bots" /> 봇·크롤러 포함</label>
+          <label class="check" title="이 브라우저에서 teheranro-ai.com 을 열어도 방문 기록에 남지 않습니다."><input type="checkbox" id="optout" /> 내 방문 기록 안 함</label>
+          <button id="refresh" type="button">새로고침</button>
+          <button id="logout" type="button">로그아웃</button>
+        </div>
+      </header>
+
+      <p class="msg" id="dash-msg" role="status"></p>
+
+      <div class="grid kpis" id="kpis"></div>
+
+      <div class="grid cols-2" style="margin-top: 14px">
+        <section class="card">
+          <h2>일별 방문</h2>
+          <svg class="chart" id="chart-daily" role="img" aria-label="일별 방문 추이"></svg>
+        </section>
+        <section class="card">
+          <h2>시간대별 방문 (KST)</h2>
+          <svg class="chart" id="chart-hourly" role="img" aria-label="시간대별 방문 분포"></svg>
+        </section>
+      </div>
+
+      <div class="grid cols-2" style="margin-top: 14px">
+        <section class="card">
+          <h2>어떤 정보를 봤나 — 화면별 열람</h2>
+          <div id="t-sections"></div>
+        </section>
+        <section class="card">
+          <h2>클릭한 제품 · 연락 수단 · 링크</h2>
+          <div id="t-clicks"></div>
+        </section>
+      </div>
+
+      <div class="grid cols-3" style="margin-top: 14px">
+        <section class="card"><h2>국가</h2><div id="t-countries"></div></section>
+        <section class="card"><h2>도시</h2><div id="t-cities"></div></section>
+        <section class="card"><h2>유입 경로</h2><div id="t-referrers"></div></section>
+      </div>
+
+      <div class="grid cols-3" style="margin-top: 14px">
+        <section class="card"><h2>기기</h2><div id="t-devices"></div></section>
+        <section class="card"><h2>브라우저</h2><div id="t-browsers"></div></section>
+        <section class="card"><h2>페이지 · 언어</h2><div id="t-paths"></div></section>
+      </div>
+
+      <section class="card" style="margin-top: 14px">
+        <h2>최근 방문 기록 — 클릭하면 상세가 펼쳐집니다</h2>
+        <div id="sessions"></div>
+      </section>
+    </main>
+
+    <!-- Absolute: the page is served at /admin (no trailing slash), where ./ would mean the site root. -->
+    <script type="module" src="/admin/app.js"></script>
+  </body>
+</html>
