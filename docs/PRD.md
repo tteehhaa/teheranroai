@@ -193,6 +193,7 @@
 | OG / Twitter | 페이지별 제목·설명, 이미지 `/og.png`(1200×630, 도로명판), `summary_large_image` |
 | favicon | 방향 표지판(파란 판·흰 테두리·끝이 뾰족함) + Pretendard Bold "AI" 윤곽 + 회색 기둥. `/icon.svg`, `/favicon.ico`(16·32·48), `/apple-icon.png`(180, 종이색 바탕). TROPS의 사각형 아이콘과 구분되도록 윤곽으로 알아보게 함 |
 | 소유 확인 | 네이버 서치어드바이저 `naver-site-verification` meta (모든 페이지 head, `components/RootDocument.tsx`의 `verification`). Google Search Console은 코드를 받으면 같은 곳에 추가 |
+| 색인 알림 | IndexNow 키 파일 `/ecd6b97c50a37fdb39e279b9cbdefa90.txt`(내용은 키 그대로). 페이지를 추가·변경해 배포한 뒤 `https://api.indexnow.org/indexnow`에 바뀐 주소 목록을 POST하면 Bing·네이버·Yandex 등 참여 검색엔진에 함께 전달된다. Google은 IndexNow를 받지 않으므로 Search Console의 URL 검사 → 색인 생성 요청 |
 | JSON-LD | WebSite(`@id` …/#website, description, publisher `{"@id":"https://theo-ne.com/#org"}`) + Organization(같은 `@id`, 이름 (주)테오네 / THÉONÉ Inc., url, email, taxID=사업자등록번호, brand(name·alternateName "테헤란로 AI 스튜디오"·url, theo-ne.com과 동일)) + SoftwareApplication(`@id`, name, 페이지 언어의 한 줄 설명, url, publisher) TROPS·Bar Route·Beacon + WebPage(`@id` {주소}#webpage, 페이지 제목·설명, inLanguage, isPartOf WebSite, about = 링크 있는 프로젝트면 그 SoftwareApplication, 아니면 회사). 페이지마다 한 그래프를 페이지 컴포넌트에서 렌더. SoftwareApplication `@id`는 기본 `https://www.teheranro-ai.com/#{id}`, TROPS는 theo-ne.com과 같은 `https://theo-ne.com/#trops` |
 | sitemap | 12개 주소(ko·en × 입구·5개 프로젝트), 각 주소에 언어 대체 |
 | robots | 전체 허용, `/licenses`는 페이지에서 `noindex, follow` |
@@ -300,3 +301,4 @@ supabase/migrations/   방문 분석 테이블 (teheranro_ 접두사)
 | 2026-09-11 | #12 | 영문 h1에 브랜드명, favicon(방향 표지판 + AI), 미결 1~4 정리 |
 | 2026-09-24 | — | 방문 분석 수집기와 관리자 대시보드 `/admin` (theo-ne.com/admin과 같은 구조) |
 | 2026-11-05 | — | Pou Sto를 Otherwise 다음 프로젝트로 추가 (개발 중·공개 전, 링크 없음) |
+| 2026-11-05 | — | IndexNow 키 파일 추가 (새 주소를 Bing·네이버에 바로 알림) |
