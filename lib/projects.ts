@@ -58,6 +58,16 @@ export const PROJECTS: Project[] = [
     bg: "#F5F6F4",
   },
   {
+    id: "pou-sto",
+    name: "Pou Sto",
+    line: { ko: "전문 업무 특화 AI 엔진", en: "Domain-specific AI engine for expert work" },
+    audience: { ko: "전문 지식으로 일하는 사람과 팀", en: "Professionals and teams whose work runs on expert knowledge" },
+    stage: "building",
+    note: { ko: "공개 전", en: "Not yet public" },
+    image: "/projects/pou-sto.jpg",
+    bg: "#F5F6F4",
+  },
+  {
     id: "bar-route",
     name: "Bar Route",
     line: { ko: "영미권 변호사 자격 경로 진단", en: "Common-law bar eligibility, mapped" },
