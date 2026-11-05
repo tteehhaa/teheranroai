@@ -38,9 +38,9 @@
 | 주소 | 화면 | 언어 | 비고 |
 |---|---|---|---|
 | `/` | 입구(도로명판) | ko | |
-| `/trops`, `/otherwise`, `/bar-route`, `/beacon` | 해당 프로젝트에서 전시 시작 | ko | 정적 생성, 그 밖의 값은 404 |
+| `/trops`, `/otherwise`, `/pou-sto`, `/bar-route`, `/beacon` | 해당 프로젝트에서 전시 시작 | ko | 정적 생성, 그 밖의 값은 404 |
 | `/en` | 입구 | en | |
-| `/en/trops`, `/en/otherwise`, `/en/bar-route`, `/en/beacon` | 해당 프로젝트에서 전시 시작 | en | |
+| `/en/trops`, `/en/otherwise`, `/en/pou-sto`, `/en/bar-route`, `/en/beacon` | 해당 프로젝트에서 전시 시작 | en | |
 | `/licenses` | 오픈소스 고지 | ko | 한 페이지, 영문판 없음, `noindex` |
 | `/sitemap.xml`, `/robots.txt` | 검색엔진용 | — | |
 | `/llms.txt` | AI 안내문 (텍스트) | en·ko 병기 | `lib/projects.ts`·`lib/copy.ts`에서 빌드 시 생성 |
@@ -93,10 +93,11 @@
 |---|---|---|---|---|---|---|
 | trops | TROPS | 중소기업 수출 업무 지원 소프트웨어 | Export operations software for small businesses | 운영 중 / Live | https://www.trops.kr/ | `/projects/trops.jpg` |
 | otherwise | Otherwise | 건물 외관·용도 AR 시뮬레이션 | Building facades and uses, reimagined in AR | 개발 중 / Building | 없음 (공개 전) | `/projects/otherwise.jpg` |
+| pou-sto | Pou Sto | 전문 업무 특화 AI 엔진 | Domain-specific AI engine for expert work | 개발 중 / Building | 없음 (공개 전) | `/projects/pou-sto.jpg` |
 | bar-route | Bar Route | 영미권 변호사 자격 경로 진단 | Common-law bar eligibility, mapped | 베타 운영 중 / Beta | https://bar-route.vercel.app/ | `/projects/bar-route.jpg` |
 | beacon | Beacon | 생성형 엔진 최적화(GEO) 진단 | Generative engine optimization, measured | 운영 중 / Live | https://beacon-audit-prodigy212-lgtm.vercel.app/ | `/projects/beacon.jpg` |
 
-- `audience`(대상)는 화면에 나오지 않고 `/llms.txt`에만 쓴다: TROPS "수출 업무를 하는 중소기업 / Small businesses that export", Otherwise "건물과 공간을 기획하는 사람, 디벨로퍼 / Space planners and property developers", Bar Route "영미권 변호사 자격을 알아보는 사람 / People looking into common-law bar admission".
+- `audience`(대상)는 화면에 나오지 않고 `/llms.txt`에만 쓴다: TROPS "수출 업무를 하는 중소기업 / Small businesses that export", Otherwise "건물과 공간을 기획하는 사람, 디벨로퍼 / Space planners and property developers", Pou Sto "전문 지식으로 일하는 사람과 팀 / Professionals and teams whose work runs on expert knowledge", Bar Route "영미권 변호사 자격을 알아보는 사람 / People looking into common-law bar admission".
 - 단계 이름은 `STAGES`(live 운영 중·Live / beta 베타 운영 중·Beta / building 개발 중·Building)에 있다. 프로젝트의 `stage` 값만 바꾸면 전시·메뉴에 함께 반영된다.
 - 링크 문구는 프로젝트마다 두지 않고 공통 "열기 / Open"을 쓴다.
 - 링크가 있는 프로젝트는 JSON-LD의 SoftwareApplication에 자동으로 들어간다 (Otherwise는 공개되면 링크만 넣으면 됨).
@@ -112,6 +113,7 @@
 |---|---|---|---|
 | trops.jpg | Pexels (photos/6595779, K @kelly) 미국 볼티모어항 — 갠트리 크레인과 컨테이너선 부감 | Pexels 라이선스(상업 이용·수정 가능, 출처 표시 의무 없음) | 오른쪽 기준 1:1 크롭(크레인 다리~뱃머리), 채도 0.38 |
 | otherwise.jpg | Pexels (pexels-postiglioni-2374976) 새 건물과 옛 건물 | 동일 | 경계 가운데 1:1 크롭, 청록 보정 + 채도 0.42 |
+| pou-sto.jpg | Unsplash (photos/ZipdAARHu64, Tim Hüfner) 독일 베를린 — 가는 기둥 하나가 받친 캔틸레버 콘크리트 지붕 | Unsplash 라이선스(상업 이용·수정 가능, 출처 표시 의무 없음) | 오른쪽 기준 1:1 크롭(기둥~지붕 모서리), 채도 0.45 |
 | bar-route.jpg | Pexels (photos/29500749, Following NYC) 뉴욕주 대법원(60 Centre St) 정면 | Pexels 라이선스(상업 이용·수정 가능, 출처 표시 의무 없음) | 가운데 1:1 크롭(박공~계단), 채도 0.45 |
 | beacon.jpg | Pexels (photos/5032708, braincontour) 미국 뉴멕시코 Very Large Array 전파망원경 | Pexels 라이선스(상업 이용·수정 가능, 출처 표시 의무 없음) | 가운데 1:1 크롭(앞 접시 전체 + 뒤로 늘어선 접시들), 채도 0.45 |
 
@@ -192,7 +194,7 @@
 | favicon | 방향 표지판(파란 판·흰 테두리·끝이 뾰족함) + Pretendard Bold "AI" 윤곽 + 회색 기둥. `/icon.svg`, `/favicon.ico`(16·32·48), `/apple-icon.png`(180, 종이색 바탕). TROPS의 사각형 아이콘과 구분되도록 윤곽으로 알아보게 함 |
 | 소유 확인 | 네이버 서치어드바이저 `naver-site-verification` meta (모든 페이지 head, `components/RootDocument.tsx`의 `verification`). Google Search Console은 코드를 받으면 같은 곳에 추가 |
 | JSON-LD | WebSite(`@id` …/#website, description, publisher `{"@id":"https://theo-ne.com/#org"}`) + Organization(같은 `@id`, 이름 (주)테오네 / THÉONÉ Inc., url, email, taxID=사업자등록번호, brand(name·alternateName "테헤란로 AI 스튜디오"·url, theo-ne.com과 동일)) + SoftwareApplication(`@id`, name, 페이지 언어의 한 줄 설명, url, publisher) TROPS·Bar Route·Beacon + WebPage(`@id` {주소}#webpage, 페이지 제목·설명, inLanguage, isPartOf WebSite, about = 링크 있는 프로젝트면 그 SoftwareApplication, 아니면 회사). 페이지마다 한 그래프를 페이지 컴포넌트에서 렌더. SoftwareApplication `@id`는 기본 `https://www.teheranro-ai.com/#{id}`, TROPS는 theo-ne.com과 같은 `https://theo-ne.com/#trops` |
-| sitemap | 10개 주소(ko·en × 입구·4개 프로젝트), 각 주소에 언어 대체 |
+| sitemap | 12개 주소(ko·en × 입구·5개 프로젝트), 각 주소에 언어 대체 |
 | robots | 전체 허용, `/licenses`는 페이지에서 `noindex, follow` |
 | llms.txt | llmstxt.org 형식. 브랜드 소개, 만드는 방식, 제품별 한 줄 설명·대상·단계·제품 사이트, 문의(이메일·회사·사업자등록번호, 가격은 싣지 않고 이메일 문의). 전화번호는 없음 |
 | 금지 | keywords 메타 없음, hanabeomlaw.com 링크·언급 없음, gmail 주소 없음 |
@@ -297,3 +299,4 @@ supabase/migrations/   방문 분석 테이블 (teheranro_ 접두사)
 | 2026-09-11 | #10, #11 | `docs/` 로컬 전용 → PRD 저장소에 추가 |
 | 2026-09-11 | #12 | 영문 h1에 브랜드명, favicon(방향 표지판 + AI), 미결 1~4 정리 |
 | 2026-09-24 | — | 방문 분석 수집기와 관리자 대시보드 `/admin` (theo-ne.com/admin과 같은 구조) |
+| 2026-11-05 | — | Pou Sto를 Otherwise 다음 프로젝트로 추가 (개발 중·공개 전, 링크 없음) |
